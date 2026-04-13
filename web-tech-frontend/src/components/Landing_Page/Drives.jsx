@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 
@@ -24,6 +25,7 @@ const bottomRow = sortedImages.slice(19, 38);
 
 export default function Drives() {
   const [upcomingDrives, setUpcomingDrives] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUpcomingDrives = async () => {
@@ -149,7 +151,7 @@ export default function Drives() {
                       <button
                         onClick={() => {
                           const token = localStorage.getItem("token");
-                          window.location.href = token ? "/home" : "/login";
+                          navigate(token ? "/home" : "/login");
                         }}
                         className="w-full bg-green-500 text-white py-2 rounded-xl text-sm font-medium hover:bg-green-600 transition"
                       >
