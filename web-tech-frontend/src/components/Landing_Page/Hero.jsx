@@ -1,5 +1,9 @@
-import heroImage from "/src/assets/images/hero-image.png";
-import bgImage from "/src/assets/images/bg-image.png";
+import regDonIcon from "../../assets/icons/Reg_Don.png";
+import currentBloodSupplyIcon from "../../assets/icons/Cur_Blo_Sup.png";
+import bloodDemandIcon from "../../assets/icons/Blood_Dem.png";
+import donationDriveIcon from "../../assets/icons/Don_Dri.png";
+import heroImage from "../../assets/images/hero-image.png";
+import bgImage from "../../assets/images/bg-image.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -210,7 +214,7 @@ export default function Hero() {
               "
             >
               <motion.img
-                src="/src/assets/icons/Reg_Don.png"
+                src={regDonIcon}
                 alt="Registered Donors"
                 className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-20 lg:h-20 shrink-0"
                 whileHover={{ rotate: -3, scale: 1.04 }}
@@ -243,7 +247,7 @@ export default function Hero() {
               "
             >
               <motion.img
-                src="/src/assets/icons/Cur_Blo_Sup.png"
+                src={currentBloodSupplyIcon}
                 alt="Current Blood Supply"
                 className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-20 lg:h-20 shrink-0"
                 whileHover={{ rotate: -3, scale: 1.04 }}
@@ -276,7 +280,7 @@ export default function Hero() {
               "
             >
               <motion.img
-                src="/src/assets/icons/Blood_Dem.png"
+                src={bloodDemandIcon}
                 alt="Blood Demand"
                 className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-20 lg:h-20 shrink-0"
                 whileHover={{ rotate: -3, scale: 1.04 }}
@@ -309,7 +313,7 @@ export default function Hero() {
               "
             >
               <motion.img
-                src="/src/assets/icons/Don_Dri.png"
+                src={donationDriveIcon}
                 alt="Upcoming Donation Drives"
                 className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-20 lg:h-20 shrink-0"
                 whileHover={{ rotate: -3, scale: 1.04 }}

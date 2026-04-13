@@ -3,6 +3,9 @@ import api from "../../services/api";
 
 import coverImage from "../../assets/images/cover.png";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1";
+const BACKEND_ORIGIN = API_URL.replace("/api/v1", "");
+
 const imageModules = import.meta.glob(
   "../../assets/images/drives/*.png",
   { eager: true, import: "default" }
@@ -84,11 +87,17 @@ export default function Drives() {
                     ? Math.round((registered / maxParticipants) * 100)
                     : 0;
 
-                const image =
+                const rawImage =
                   drive.image ||
                   drive.imageURL ||
                   drive.imageUrl ||
-                  coverImage;
+                  "";
+
+                const image = rawImage
+                  ? rawImage.startsWith("http")
+                    ? rawImage
+                    : `${BACKEND_ORIGIN}${rawImage}`
+                  : coverImage;
 
                 return (
                   <div
