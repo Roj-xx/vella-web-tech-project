@@ -1,8 +1,8 @@
 # VELLA: A Virtual Enhanced Lifeline for Lifeblood Accessibility
 
-VELLA is a web-based blood donation management and coordination system that enables users and administrators to manage donor information, blood requests, and donation drive participation through a centralized and role-based platform.
+VELLA is a web-based Blood Donation Management and Coordination System designed to streamline donor management, facilitate type-specific blood requests, support blood inventory tracking, and improve the coordination of donation drives in the province of Marinduque. It provides a centralized and accessible platform that enhances efficiency, reliability, and organization in blood donation activities.
 
-Users can register, manage their profiles, view and respond to blood requests, join donation drives, and track their participation. Administrators can manage donor records, monitor and process blood requests, create and manage donation drives, and oversee participant activities within the system.
+Donors (users) can register, manage their profiles, receive and respond to blood requests, participate in donation drives, and stay informed about blood donation activities. Administrators can manage donor records, monitor and organize blood requests, oversee blood inventory, create and coordinate donation drives, and ensure proper handling of system data and operations.
 
 ---
 
