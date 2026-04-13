@@ -3,23 +3,22 @@ import { useEffect } from "react";
 import api from "../../services/api";
 import CreateBloodRequestModal from "../../components/modals/admin/CreateBloodRequestModal";
 import EditBloodRequestModal from "../../components/modals/admin/EditBloodRequestModal";
-import DeleteDonationDriveModal from "../../components/modals/admin/DeleteDonationDriveModal"; // ✅ REUSED
+import DeleteDonationDriveModal from "../../components/modals/admin/DeleteDonationDriveModal";
 import BloodRequestCard from "../../components/cards/admin/BloodRequestCard";
 
 const RequestBlood = () => {
-
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [selectedRequest, setSelectedRequest] = useState(null);
-
   const [requests, setRequests] = useState([]);
 
   const [formData, setFormData] = useState({
     bloodType: "",
     title: "",
     urgency: "Medium",
+    status: "Pending",
     location: "",
     date: "",
     time: "",
@@ -27,7 +26,6 @@ const RequestBlood = () => {
     description: "",
   });
 
-  // ✅ HANDLE INPUT
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -37,13 +35,13 @@ const RequestBlood = () => {
     }));
   };
 
-  // ✅ CREATE
   const handleSubmit = async () => {
     try {
       await api.post("/requests", {
         title: formData.title,
         bloodType: formData.bloodType,
         urgency: formData.urgency.toLowerCase(),
+        status: formData.status || "Pending",
         venue: formData.location,
         date: formData.date,
         startTime: formData.time,
@@ -57,6 +55,7 @@ const RequestBlood = () => {
         bloodType: "",
         title: "",
         urgency: "Medium",
+        status: "Pending",
         location: "",
         date: "",
         time: "",
@@ -64,20 +63,21 @@ const RequestBlood = () => {
         description: "",
       });
       setOpen(false);
-
     } catch (error) {
       console.error("Failed to create request:", error);
     }
   };
 
-  // ✅ OPEN EDIT
   const handleEdit = (req) => {
     setSelectedRequest(req);
 
     setFormData({
       title: req.title || "",
       bloodType: req.bloodType || "",
-      urgency: req.urgency || "medium",
+      urgency: req.urgency
+        ? req.urgency.charAt(0).toUpperCase() + req.urgency.slice(1).toLowerCase()
+        : "Medium",
+      status: req.status || "Pending",
       location: req.venue || "",
       date: req.date || "",
       time: req.startTime || "",
@@ -88,13 +88,13 @@ const RequestBlood = () => {
     setEditOpen(true);
   };
 
-  // ✅ UPDATE
   const handleUpdate = async () => {
     try {
       await api.put(`/requests/${selectedRequest._id}`, {
         title: formData.title,
         bloodType: formData.bloodType,
-        urgency: formData.urgency,
+        urgency: formData.urgency.toLowerCase(),
+        status: formData.status || "Pending",
         venue: formData.location,
         date: formData.date,
         startTime: formData.time,
@@ -104,26 +104,21 @@ const RequestBlood = () => {
 
       fetchRequests();
       setEditOpen(false);
-
     } catch (error) {
       console.error("Failed to update request:", error);
     }
   };
 
-  // ✅ OPEN DELETE MODAL
   const handleDeleteClick = (req) => {
     setSelectedRequest(req);
     setDeleteOpen(true);
   };
 
-  // ✅ CONFIRM DELETE
   const confirmDelete = async () => {
     try {
       await api.delete(`/requests/${selectedRequest._id}`);
-
       fetchRequests();
       setDeleteOpen(false);
-
     } catch (error) {
       console.error("Failed to delete request:", error);
     }
@@ -171,14 +166,9 @@ const RequestBlood = () => {
 
   return (
     <div className="space-y-6 p-6 -ml-10">
-
-      {/* HEADER */}
       <div className="flex justify-between items-center">
         <div>
-          {/* font ginawang bold */}
-          <h1 className="text-3xl font-bold text-gray-900">
-            Blood Requests
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900">Blood Requests</h1>
           <p className="text-gray-500 text-sm mt-1">
             Create and manage blood type-specific requests
           </p>
@@ -190,6 +180,7 @@ const RequestBlood = () => {
               bloodType: "",
               title: "",
               urgency: "Medium",
+              status: "Pending",
               location: "",
               date: "",
               time: "",
@@ -204,7 +195,6 @@ const RequestBlood = () => {
         </button>
       </div>
 
-      {/* CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {requests.map((req) => (
           <BloodRequestCard
@@ -216,6 +206,7 @@ const RequestBlood = () => {
               venue: req.venue,
               date: req.date,
               time: req.startTime,
+              status: req.status || "Pending",
               maxParticipants: req.maxParticipants || 0,
               joinedCount: req.joinedCount || 0,
             }}
@@ -225,7 +216,6 @@ const RequestBlood = () => {
         ))}
       </div>
 
-      {/* CREATE MODAL */}
       <CreateBloodRequestModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -235,7 +225,6 @@ const RequestBlood = () => {
         setFormData={setFormData}
       />
 
-      {/* EDIT MODAL */}
       <EditBloodRequestModal
         isOpen={editOpen}
         onClose={() => setEditOpen(false)}
@@ -245,7 +234,6 @@ const RequestBlood = () => {
         setFormData={setFormData}
       />
 
-      {/* ✅ DELETE MODAL (REUSED 🔥) */}
       <DeleteDonationDriveModal
         isOpen={deleteOpen}
         onClose={() => setDeleteOpen(false)}
@@ -253,7 +241,6 @@ const RequestBlood = () => {
         title="Delete Blood Request"
         message="Are you sure you want to delete this blood request? This action cannot be undone."
       />
-
     </div>
   );
 };

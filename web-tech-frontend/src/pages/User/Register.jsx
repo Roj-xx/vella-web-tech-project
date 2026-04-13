@@ -327,7 +327,7 @@ export default function Register() {
                     value={form.email}
                     onChange={handleChange}
                     type="email"
-                    placeholder="marinduque.pho@vella.ph"
+                    placeholder="e.g. lastname.firstname@gmail.com"
                     className="w-full mt-2 px-4 py-[11px] bg-white/18 border border-white/20 rounded-[10px] text-[14px] text-white placeholder:text-white/55 outline-none backdrop-blur-md transition-all duration-300 focus:border-white/30 focus:ring-2 focus:ring-white/30"
                   />
                   {errors.email && (

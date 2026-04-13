@@ -7,28 +7,21 @@ import coverImage from "../../assets/images/cover.png";
 import api from "../../services/api";
 
 const DonationDrives = () => {
-
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1";
   const BACKEND_ORIGIN = API_URL.replace("/api/v1", "");
-  // CREATE MODAL
-  const [createOpen, setCreateOpen] = useState(false);
 
-  // EDIT MODAL
+  const [createOpen, setCreateOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [selectedDrive, setSelectedDrive] = useState(null);
-
-  // DELETE MODAL
   const [deleteOpen, setDeleteOpen] = useState(false);
-
-  // DRIVES DATA
   const [drives, setDrives] = useState([]);
 
-  // FORM DATA
   const [formData, setFormData] = useState({
     title: "",
     location: "",
     date: "",
     time: "",
+    status: "Upcoming",
     maxParticipants: "",
     description: "",
     image: null,
@@ -54,18 +47,14 @@ const DonationDrives = () => {
             return {
               ...drive,
               registered: joinedCount,
-              image: drive.imageUrl
-              ? `${BACKEND_ORIGIN}${drive.imageUrl}`
-              : coverImage,
+              image: drive.imageUrl ? `${BACKEND_ORIGIN}${drive.imageUrl}` : coverImage,
             };
           } catch (error) {
             console.error(`Failed to fetch participants for drive ${drive._id}:`, error);
             return {
               ...drive,
               registered: 0,
-              image: drive.imageUrl
-                ? `${BACKEND_ORIGIN}${drive.imageUrl}`
-                : coverImage,
+              image: drive.imageUrl ? `${BACKEND_ORIGIN}${drive.imageUrl}` : coverImage,
             };
           }
         })
@@ -81,7 +70,6 @@ const DonationDrives = () => {
     fetchDrives();
   }, []);
 
-  // HANDLE INPUT
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -91,7 +79,6 @@ const DonationDrives = () => {
     }));
   };
 
-  // IMAGE UPLOAD
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -105,7 +92,6 @@ const DonationDrives = () => {
     }));
   };
 
-  // REMOVE IMAGE
   const handleRemoveImage = () => {
     setFormData((prev) => ({
       ...prev,
@@ -114,7 +100,6 @@ const DonationDrives = () => {
     }));
   };
 
-  // CREATE DRIVE
   const handleCreateDrive = async () => {
     try {
       const payload = new FormData();
@@ -122,12 +107,12 @@ const DonationDrives = () => {
       payload.append("location", formData.location);
       payload.append("date", formData.date);
       payload.append("time", formData.time);
+      payload.append("status", formData.status || "Upcoming");
       payload.append(
         "maxParticipants",
         formData.maxParticipants ? Number(formData.maxParticipants) : 0
       );
       payload.append("description", formData.description);
-      payload.append("status", "Upcoming");
 
       if (formData.image) {
         payload.append("image", formData.image);
@@ -147,6 +132,7 @@ const DonationDrives = () => {
         location: "",
         date: "",
         time: "",
+        status: "Upcoming",
         maxParticipants: "",
         description: "",
         image: null,
@@ -157,7 +143,6 @@ const DonationDrives = () => {
     }
   };
 
-  // EDIT CLICK
   const handleEditClick = (drive) => {
     setSelectedDrive(drive);
 
@@ -166,6 +151,7 @@ const DonationDrives = () => {
       location: drive.location || "",
       date: drive.date || "",
       time: drive.time || "",
+      status: drive.status || "Upcoming",
       maxParticipants: drive.maxParticipants || "",
       description: drive.description || "",
       image: null,
@@ -175,7 +161,6 @@ const DonationDrives = () => {
     setEditOpen(true);
   };
 
-  // UPDATE DRIVE
   const handleUpdateDrive = async () => {
     try {
       const payload = new FormData();
@@ -183,6 +168,7 @@ const DonationDrives = () => {
       payload.append("location", formData.location);
       payload.append("date", formData.date);
       payload.append("time", formData.time);
+      payload.append("status", formData.status || "Upcoming");
       payload.append(
         "maxParticipants",
         formData.maxParticipants ? Number(formData.maxParticipants) : 0
@@ -206,17 +192,14 @@ const DonationDrives = () => {
     }
   };
 
-  // DELETE CLICK
   const handleDeleteClick = (drive) => {
     setSelectedDrive(drive);
     setDeleteOpen(true);
   };
 
-  // CONFIRM DELETE
   const handleDeleteConfirm = async () => {
     try {
       await api.delete(`/drives/${selectedDrive._id}`);
-
       fetchDrives();
       setDeleteOpen(false);
     } catch (error) {
@@ -225,18 +208,10 @@ const DonationDrives = () => {
   };
 
   return (
-    // add ng p-6
     <div className="space-y-6 p-6 -ml-10">
-
-      {/* HEADER */}
       <div className="flex justify-between items-center">
-
-{/* font  ginawang bold */}
-
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Donation Drives
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900">Donation Drives</h1>
           <p className="text-gray-500 text-sm mt-1">
             Organize and manage blood donation events
           </p>
@@ -249,6 +224,7 @@ const DonationDrives = () => {
               location: "",
               date: "",
               time: "",
+              status: "Upcoming",
               maxParticipants: "",
               description: "",
               image: null,
@@ -261,16 +237,11 @@ const DonationDrives = () => {
           <span className="text-lg font-bold">+</span>
           Create Donation Drive
         </button>
-
       </div>
 
-      {/* CARD GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
         {drives.length === 0 ? (
-          <p className="text-gray-400 text-sm">
-            No donation drives yet
-          </p>
+          <p className="text-gray-400 text-sm">No donation drives yet</p>
         ) : (
           drives.map((drive) => (
             <DonationDriveCard
@@ -284,10 +255,8 @@ const DonationDrives = () => {
             />
           ))
         )}
-
       </div>
 
-      {/* CREATE MODAL */}
       <CreateDonationDriveModal
         isOpen={createOpen}
         onClose={() => setCreateOpen(false)}
@@ -297,28 +266,23 @@ const DonationDrives = () => {
         handleSubmit={handleCreateDrive}
       />
 
-      {/* EDIT MODAL */}
       <EditDonationDriveModal
         isOpen={editOpen}
         onClose={() => setEditOpen(false)}
         formData={formData}
         handleChange={handleChange}
-        handleImageUpload={handleImageUpload}
-        handleRemoveImage={handleRemoveImage}
         handleSubmit={handleUpdateDrive}
+        setFormData={setFormData}
       />
 
-      {/* DELETE MODAL */}
       <DeleteDonationDriveModal
         isOpen={deleteOpen}
         onClose={() => setDeleteOpen(false)}
         onConfirm={handleDeleteConfirm}
         drive={selectedDrive}
       />
-
     </div>
   );
 };
-
 
 export default DonationDrives;
