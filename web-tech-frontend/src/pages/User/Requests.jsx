@@ -12,7 +12,7 @@ import brownIcon from "../../assets/icons/prio-brown.png";
 import redIcon from "../../assets/icons/prio-red.png";
 
 import bloodIcon from "../../assets/icons/blood.png";
-import locationIcon from "../../assets/icons/location.png";
+import locationIcon from "../../assets/icons/Location.png";
 import contactIcon from "../../assets/icons/contact.png";
 import calendarIcon from "../../assets/icons/date.png";
 

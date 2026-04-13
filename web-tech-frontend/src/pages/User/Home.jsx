@@ -10,7 +10,7 @@ import RequestBloodModal from "../../components/modals/user/RequestBlood";
 import CancelRequestModal from "../../components/modals/user/CancelRequest";
 
 import bloodIcon from "../../assets/icons/blood.png";
-import locationIcon from "../../assets/icons/location.png";
+import locationIcon from "../../assets/icons/Location.png";
 import contactIcon from "../../assets/icons/contact.png";
 import calendarIcon from "../../assets/icons/date.png";
 import donorProfileIcon from "../../assets/icons/Don_Prof.png";

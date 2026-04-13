@@ -8,7 +8,7 @@ import CancelRequestModal from "../../components/modals/user/CancelRequest";
 import CompleteProfileModal from "../../components/modals/user/CompleteProfile";
 
 import bloodIcon from "../../assets/icons/blood.png";
-import locationIcon from "../../assets/icons/location.png";
+import locationIcon from "../../assets/icons/Location.png";
 import contactIcon from "../../assets/icons/contact.png";
 import calendarIcon from "../../assets/icons/date.png";
 import coverImage from "../../assets/images/cover.png";
